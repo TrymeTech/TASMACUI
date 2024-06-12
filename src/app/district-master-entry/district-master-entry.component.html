@@ -1,0 +1,163 @@
+<body class="home-bg">
+    <p-blockUI [blocked]="blockScreen">
+        <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+    </p-blockUI>
+    <div class="p-grid card page-content border-color">
+        <div class="p-col-12 p-md-12 p-lg-12 no-pad">
+            <app-topbar></app-topbar>
+        </div>
+        <p-toast position="top-center" key="t-err"></p-toast>
+        <div class="p-col-12 p-md-12 p-lg-12 border-color" style="min-height: 445px;">
+            <p-panel>
+                <p-header>District Master Entry
+                    <div class="ui-g panel-header">
+                        <div class="ui-g-12"></div>
+                    </div>
+                </p-header>
+                <form #f="ngForm" name="districtmasterentryForm">
+          
+                    <div class="p-grid card">
+
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label for="rname" class="label-text-color">Region:<span 
+                                    class="form-mandatory-field">*</span>
+                                </label>
+                            </div>
+                            <p-dropdown #reg name="rname" [options]="regionOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="rname"
+                                (onClick)="onSelect('RM')" (onChange)="onResetFields('RM')" filter="true" filterBy="label" tabindex="1" 
+                                resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" >
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>                  
+                          
+                        </div>
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="rcode" id="float-input" size="5" pInputText
+                                    [(ngModel)]="rcode" type="text"  readonly="readonly"
+                                                                        autocomplete="off" >
+                                <label for="float-input">Region Code:<span
+                                        class="form-mandatory-field">*</span></label>
+                            </div>
+                        </div>
+    
+
+
+
+                        
+                        <!-- row 1 -->
+                        &nbsp;
+                        <!-- row 2 -->
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="dcode" id="float-input" size="5" pInputText
+                                    [(ngModel)]="dcode" type="text"  readonly="readonly"
+                                    autocomplete="off" >
+                                <label for="float-input">District Code:<span
+                                        class="form-mandatory-field">*</span></label>
+                            </div>
+                        </div>
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-3">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="districtname" id="float-input" size="20" pInputText
+                                    [(ngModel)]="districtname" type="text" autocomplete="off" tabindex="2">
+                                <label for="float-input">District name:<span 
+                                    class="form-mandatory-field">*</span></label>
+                            </div>
+                        </div>
+                        <!-- row 3 -->
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-3">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="Address" id="float-input" size="50" pInputText
+                                    [(ngModel)]="Address" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">Address:<span class="form-mandatory-field">*</span></label>
+                            </div>
+                        </div>
+
+                        <!-- <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-3">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="role_id" id="float-input" size="50" pInputText
+                                    [(ngModel)]="role_id" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">Role:<span class="form-mandatory-field">*</span></label>
+                            </div>
+                        </div> -->
+
+                        <!-- row 4 -->
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <div class="p-grid">
+                                <div class="p-col-4 p-md-2 p-lg-5"></div>
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="submit" label="Save" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="onSave()"
+                                    
+                                    [disabled]="(!f.valid || !f.dirty)">
+                                    </button>
+                                </div>
+
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="button" label="View" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="isEditClicked=true">
+                                        
+                                    </button>
+                                        
+                                </div>
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="button" label="Clear" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="onClear(f)"></button>
+                                </div>
+
+                                <!-- <div class="p-col-12 p-md-4 p-lg-1 no-pad-left" style="display: grid;">
+                                    <button pButton type="submit" label="Excel" (click)="dt.exportCSV()"
+                                        [disabled]="(regionmasterentryCols.length == 0)"
+                                        class="p-button-raised p-btn-pad bg-div"></button>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- <div class="p-col-12">  -->
+                        <div *ngIf="isEditClicked" class="p-col-12 p-md-12 p-lg-12 card border-color">
+                            <div class="header-line">District Master Details
+                                <span>
+                                    <button pButton type="button" icon="pi pi-times" iconPos="left"
+                                        style="float: right; height: 1.75rem; width: 2rem;"
+                                        (click)="isEditClicked=false"></button>
+                                </span>
+                            </div>
+                            
+                            
+                            <!-- <div class="p-col-12 p-md-4 p-lg-2">
+                                
+                                <p-calendar name="vdate" [maxDate]="maxDate" dateFormat="yy-mm-dd"
+                                    [(ngModel)]="viewDate" [showIcon]="true" (ngModelChange)="onView()">
+                                </p-calendar>
+                            </div> -->
+                            <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="districtmasterentryCols"
+                                [value]="data" [rows]="5" [rowsPerPageOptions]="[5,10]"
+                                [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
+                                selectionMode="single">
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr style="text-align: center;">
+                                        <th *ngFor="let col of columns">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect(rowData, rowIndex, f)">
+                                        <td *ngFor="let col of columns">
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+
+                    </div>
+                </form><br />
+            </p-panel>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</body>

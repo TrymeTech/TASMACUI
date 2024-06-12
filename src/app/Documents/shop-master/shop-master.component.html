@@ -1,0 +1,248 @@
+<body class="home-bg">
+    <p-blockUI [blocked]="blockScreen">
+        <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+    </p-blockUI>
+    <div class="p-grid card page-content border-color">
+        <div class="p-col-12 p-md-12 p-lg-12 no-pad">
+            <app-topbar></app-topbar>
+        </div>
+        <p-toast position="top-center" key="t-err"></p-toast>
+        <div class="p-col-12 p-md-12 p-lg-12 border-color" style="min-height: 445px;">
+            <p-panel>
+                <p-header>Shop Master
+                    <div class="ui-g panel-header">
+                        <div class="ui-g-12"></div>
+                    </div>
+                </p-header>
+                <form #f="ngForm" name="shopmasterForm">
+                    <div class="p-grid card">
+                        <!-- row 1 -->
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label for="rname" class="label-text-color">Region:
+                                    <span class="form-mandatory-field">*</span>
+                                </label>
+                            </div>
+                            <p-dropdown #reg name="rname" [options]="regionOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="rcode"
+                                (onClick)="onSelect('RM')"  filter="true" filterBy="label" tabindex="1"
+                                resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label for="dname" class="label-text-color">District:
+                                    <span *ngIf="!disableDM" class="form-mandatory-field">*</span>
+                                </label>
+                            </div>
+                            <p-dropdown #dist name="dname" [options]="districtOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="dcode"
+                                (onClick)="onSelect('DM')" filter="true" resetFilterOnHide="true"
+                                filterMatchMode="startsWith"
+                                 optionLabel="label" filterBy="label" tabindex="2"
+                                [disabled]="disableDM" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <span class="p-float-label">
+                                <input class="p-col-12" name="Shopno" type="text" (change)="Getshopdetails()" pInputText
+                                    [(ngModel)]="Shopno" tabindex="3">
+                                <label for="float-input">Shop number:</label>
+                            </span>
+                        </div>
+
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="Address" id="float-input" size="30" pInputText
+                                    [(ngModel)]="SHOPADDRESS" type="text" autocomplete="off" tabindex="4">
+                                <label for="float-input">Address:</label>
+                            </div>
+                        </div>
+
+                        <!-- row 2 -->
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-3">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="shopincharge" id="float-input" size="30"
+
+                                pInputText
+                                    [(ngModel)]="shopincharge" type="text" autocomplete="off" tabindex="5">
+                                <label for="float-input">Supervisor name:<span
+                                        class="form-mandatory-field">*</span></label>
+                            </div>
+                        </div>
+
+
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="CONTACTNO" id="float-input" size="30" maxlength="10"
+                                pattern="[6-9]{1}[0-9]{9}" pInputText
+                                    [(ngModel)]="CONTACTNO" type="text" autocomplete="off" tabindex="6">
+                                <label for="float-input">Supervisor Contactno</label>
+                            </div>
+                        </div>
+
+                        <div class="p-col-12 p-md-6 p-lg-2 pad-left">
+                            <div>
+                                <label class="label-text-color" for="installation_status">Camera Installed Status</label>
+                            </div>
+
+                        <div class="border-grey">
+                            <div style="padding-top: 5px;"> &nbsp;
+                                <p-radioButton name="Camera Installed Status" label="Yes" value=1 [(ngModel)]="installation_status"
+                                     tabindex="7">
+                                </p-radioButton> &nbsp;&nbsp;
+                                <p-radioButton name="Camera Installed Status"  value=0 label="No"  [(ngModel)]="installation_status"
+                                     tabindex="7">
+                                </p-radioButton>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                        <!-- <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="installation_status" id="float-input" size="30" pInputText
+                                    [(ngModel)]="installation_status" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">Camera Installed Status</label>
+                            </div>
+                        </div> -->
+
+                        <div class="p-col-12 p-md-6 p-lg-2 pad-left">
+                            <div>
+                                <label class="label-text-color" for="isActive">Shop Active Status</label>
+                            </div>
+                            <div class="border-grey">
+                                <div style="padding-top: 5px;"> &nbsp;
+                                    <p-radioButton name="Shop Active Status" label="Yes" value=1 [(ngModel)]="isActive"
+                                         tabindex="8">
+                                    </p-radioButton> &nbsp;&nbsp;
+                                    <p-radioButton name="Shop Active Status 1"  value=0 label="No"  [(ngModel)]="isActive"
+                                         tabindex="8">
+                                    </p-radioButton>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- <div class="border-grey">
+                            <div style="padding-top: 5px;"> &nbsp;
+                                <p-radioButton name="Shop Active Status" value=1 [(ngModel)]="isActive"
+                                    (onClick)="isActive=1" tabindex="8">
+                                </p-radioButton> &nbsp;&nbsp;
+                                <label for="isActive">Yes</label>
+                            </div>
+                            <div style="padding-top: 5px;"> &nbsp;
+                                <p-radioButton name="Shop Active Status" value=0 [(ngModel)]="isActive"
+                                    (onClick)="isActive=0" tabindex="8">
+                                </p-radioButton>
+                                <label for="isActive">No</label>
+                            </div>
+                        </div>
+                    </div> -->
+
+                        <!-- <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="isActive" id="float-input" size="30" pInputText
+                                    [(ngModel)]="isActive" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">Shop Active Status</label>
+                            </div>
+                        </div>
+                         -->
+                        <!-- row 4 -->
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <div class="p-grid">
+                                <div class="p-col-4 p-md-2 p-lg-5"></div>
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="submit" label="Save" class="p-button-raised p-btn-pad bg-div"
+                                    [disabled]="(!rcode || !dcode || !Shopno || !SHOPADDRESS || !shopincharge || !CONTACTNO || !installation_status ||!isActive)" (click)="onSave(f)" tabindex="9"
+                                       ></button>
+                                </div>
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="button" label="View" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="Getshopdetails()"></button>
+                                </div>
+
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="button" label="Excel" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="dt.exportCSV()" [disabled]="(shopmasterdata.length == '0')"
+                                        class="p-button-raised p-btn-pad bg-div">
+                                    </button>
+                                </div>
+
+
+
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="button" label="Clear" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="onClear(f)"></button>
+                                </div>
+
+                                <!-- <div class="p-col-12 p-md-6 p-lg-2 checkbox-align">
+                                    <div class="p-col-12"><label for="_camstatus">Camera Installed<span
+                                                class="form-mandatory-field">* </span></label>
+                                        <p-checkbox [(ngModel)]="camstatus" [binary]="1" inputId="binary">
+                                        </p-checkbox>
+                                    </div>
+                                </div>
+                               -->
+                                <!-- <div class="p-col-12 p-md-6 p-lg-2 checkbox-align">
+                                    <div class="p-col-12"><label for="_shopstatus">Shop Status<span
+                                                class="form-mandatory-field">* </span></label>
+                                        <p-checkbox [(ngModel)]="ShopStatus" [binary]="true" inputId="binary">
+                                        </p-checkbox>
+                                    </div>
+                                </div> -->
+
+
+                            </div>
+                        </div>
+                        &nbsp;
+                        &nbsp;
+
+                        <!-- row 4 -->
+                        <!-- <div *ngIf="isEditClicked" class="p-col-12 p-md-12 p-lg-12 card border-color">
+                            <div class="header-line">Shop Details
+                                <span>
+                                    <button pButton type="button" icon="pi pi-times" iconPos="left"
+                                        style="float: right; height: 1.75rem; width: 2rem;"
+                                        (click)="isEditClicked=True"></button>
+                                </span>
+                            </div>  -->
+
+                            <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm"
+                                [columns]="shopmasterCols" [value]="shopmasterdata"[resizableColumns]="true" columnResizeMode="expand"
+                                [rows]="20"
+                                [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
+                                autoLayout="true" [loading]="loading"
+                                 selectionMode="single">
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr style="text-align: center;">
+                                        <th pResizableColumn *ngFor="let col of columns">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect(rowData, rowIndex, f)">
+                                        <td *ngFor="let col of columns">
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        <!-- </div> -->
+                    </div>
+                </form><br />
+
+            </p-panel>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</body>
